@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>CTF平台管理系统--添加题目</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        
+        <link rel="stylesheet" href="../../../layui/css/layui.css" media="all">
+        <link rel="stylesheet" href="../../../layui/css/global.css" media="all">
+        <link rel="stylesheet" href="../../../layui/css/modules/layer/default/layer.css" media="all">
+        
+        <script type="text/javascript" src="../js/jquery-3.3.1.js"></script>
+        <script src="../js/general.js" charset="utf-8"></script>
+
+        <style>
+            .bg-color-menu {
+                background-color: #20222A !important;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="layui-layout layui-layout-admin">
+            <!-- 顶部导航栏 -->
+            <div class="layui-header header header-demo">
+                <div class="layui-main">
+                    <a class="" href="../main.html" style="height: 100%; font-size: 20px;color: rgba(255, 255, 255, 0.8); line-height: 57px; font-weight: 500">
+                    CTF平台管理系统
+                    </a>
+                    <div class="layui-form component" lay-filter="LAY-site-header-component"></div>
+                    <ul class="layui-nav">
+                        <li class="layui-nav-item ">
+                        <a href="../../../ctf/home.html">返回前台</a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">
+                                <img src="../images/user_default.jpg" class="layui-nav-img">
+                                我
+                                <span class="layui-nav-more"></span>
+                            </a>
+                            <dl class="layui-nav-child layui-anim layui-anim-upbit" id="list_cur" style="top: 60px;">
+                                <dd style="border: 0px; height: 5px;"></dd>
+                                <dd><a onclick="updatePwd()" style="cursor:pointer;">修改密码</a></dd>
+                                <dd><a onclick="openUpdate()" style="cursor:pointer;">修改信息</a></dd>
+                                <dd><a onclick="signOut()" style="cursor:pointer;">退出</a></dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 左侧垂直导航栏 -->
+            <div class="layui-side layui-bg-black">
+                <div class="layui-side-scroll bg-color-menu">
+                    <ul class="layui-nav layui-nav-tree">
+                        <li class="layui-nav-item bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-home" style="font-size:16px;"></i>&nbsp;&nbsp;平台管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../platform/data_statistics.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据统计</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../platform/announcement.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公告管理</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        
+                        <li class="layui-nav-item bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-flag" style="font-size:16px;"></i>&nbsp;&nbsp;赛事管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../contest/add_contest.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;创建赛事</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../contest/contest_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;赛事列表</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        
+                        <li class="layui-nav-item layui-nav-itemed bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-template-1" style="font-size:16px;"></i>&nbsp;&nbsp;题目管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="layui-this">
+                                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;添加题目</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="problem_set.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目列表</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="problem_type.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目类型</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        
+                        <li class="layui-nav-item bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-user" style="font-size:16px;"></i>&nbsp;&nbsp;用户管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../user/user_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户列表</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../user/records.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交记录</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-set" style="font-size:16px;"></i>&nbsp;&nbsp;管理员信息</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../admin/add_admin.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;添加管理员</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../admin/admin_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;管理员列表</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        
+                        <!-- <li class="layui-nav-item" style="height: 30px; text-align: center"></li> -->
+                    </ul>
+                </div>
+            </div>
+            <!-- 主体内容 -->
+            <div class="layui-body" id="LAY_app_body">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>添加题目</legend>
+                </fieldset>
+                <form class="layui-form" action="" style="margin:50px 0 0 5%; font-size:15px">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">题目名称</label>
+                        <div class="layui-input-block">
+                        <input type="text" id="problem_title" autocomplete="off" placeholder="请输入题目标题" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-form-item" style="margin-top:1%">
+                        <label class="layui-form-label">题目类型</label>
+                        <div class="layui-input-inline">
+                            <select name="modules">
+                                <option value="">请选择</option>
+                                <option value="1">杂项</option>
+                                <option value="2">逆向</option>
+                                <option value="3">web</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-top:1%">
+                        <label class="layui-form-label">题目描述</label>
+                        <div class="layui-input-block">
+                            <textarea class="tcp_content layui-textarea" placeholder="请输入题目描述，500字以内" style="width: 50%;" maxlength="500" 
+                            onchange="textarea_fun()" onkeydown="textarea_fun()" onkeyup="textarea_fun()"></textarea>
+                            <span class="t_h" style="float: left; margin-left: 45%"><i>0</i>/500</span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-upload" style="margin-top:1%">
+                        <label class="layui-form-label">题目资源</label>
+                        <button type="button" class="layui-btn layui-btn-normal" id="upload">
+                        <i class="layui-icon layui-icon-upload"></i>选择文件</button>
+                        <input class="layui-upload-file" type="file" accept="undefined" name="file">
+                    </div>
+                    <div class="layui-form-item" style="margin-top:2.5%">
+                        <label class="layui-form-label">题目答案</label>
+                        <div class="layui-input-block">
+                        <input type="text" id="problem_answer" autocomplete="off" placeholder="请输入题目答案" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-top:2.5%">
+                        <label class="layui-form-label">题目作者</label>
+                        <div class="layui-input-block">
+                        <input type="text" id="problem_author" autocomplete="off" placeholder="请输入题目作者" required class="layui-input" style="width: 30%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-top:2.5%">
+                        <label class="layui-form-label">题目难度</label>
+                        <div class="layui-input-block">
+                            <input type="number" id="problem_level" autocomplete="off" placeholder="题目难度，请输入1-100之间的整数" required class="layui-input" style="width: 30%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-top:2.5%">
+                        <div class="layui-input-inline" style="width:30%">
+                            <label class="layui-form-label">题目分值</label>
+                            <input type="number" id="problem_sorce" autocomplete="off" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        </div>
+                        <div class="layui-input-inline" style="width:30%">
+                            <label class="layui-form-label">附加分</label>
+                            <input type="number" id="problem_additional_sorce" autocomplete="off" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        </div>
+                        <div class="layui-input-inline" style="width:30%">
+                            <label class="layui-form-label">降分幅度</label>
+                            <input type="number" id="problem_sorce_float" autocomplete="off" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        </div>
+                    </div>
+                    <div class="layui-input-block" style="margin-top:3.5%">
+                        <button type="button" class="layui-btn" onclick="add_problem()">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary" style="margin-left: 5%" onclick="$('.layui-upload-choose').remove();">重置</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 引入或者加载脚本 -->
+        <script src="../../../layui/layui.all.js" charset="utf-8"></script>
+        <script src="js/add_problem.js" charset="utf-8"></script>
+        </div>
+        <div id="LAY_democodejs">
+            <script>
+                var uploadInst;
+                var problem_address = "";
+                var problem_title, problem_level, problem_type, problem_description, problem_answer, problem_author, problem_sorce, problem_additional_sorce, problem_sorce_float;
+
+                layui.use('form', function(){
+                    var form = layui.form;
+                    getProblemType();
+                });
+                layui.use('upload', function() {
+                    var $ = layui.jquery, upload = layui.upload;
+                    //普通图片上传使用layui上传图片
+                    uploadInst = upload.render({
+                        elem: '#upload'
+                        , url: '../../../file/upload'
+                        , accept : 'file'
+                        , multiple : false
+                        , auto : false
+                        , field : 'file'
+                        , choose: function (obj) { +
+                            //预读本地文件示例，不支持ie8 +
+                            obj.preview(function (index, file, result) {
+                                problem_address = file.name;
+                                var span = document.createElement("span");
+                                span.className = "layui-inline layui-upload-choose";
+                                span.innerText=file.name;
+                                document.getElementsByClassName("layui-upload")[0].appendChild(span);
+                            });
+                        }
+                        , done: function (res) {
+                            //如果上传失败
+                            if (res.code > 0) {
+                                return layer.msg('上传失败');
+                            }
+                            //上传成功
+                            else
+                            {
+                                problem_address = res.src;
+                                add_Problem(problem_title, problem_type, problem_level, problem_description, problem_address, problem_answer, problem_author, problem_sorce, problem_additional_sorce, problem_sorce_float);
+                            }
+                        }
+                        , error: function () {
+                            //演示失败状态，并实现重传
+                            var demoText = $('#demoText');
+                            demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                            demoText.find('.demo-reload').on('click', function () {
+                                uploadInst.upload();
+                            });
+                    }
+                    });
+                });
+
+                function add_problem(){
+                    problem_title = $("#problem_title").val();
+                    problem_type = $('.layui-anim.layui-anim-upbit').children('.layui-this').attr("lay-value");
+                    problem_description = $(".tcp_content").val();
+                    problem_answer = $("#problem_answer").val();
+                    problem_author = $("#problem_author").val();
+                    problem_sorce = $("#problem_sorce").val();
+                    problem_level = $("#problem_level").val();
+                    problem_additional_sorce = $("#problem_additional_sorce").val();
+                    problem_sorce_float = $("#problem_sorce_float").val();
+                    // console.log(problem_title);
+                    // console.log(problem_type);
+                    // console.log(problem_description);
+                    // console.log(problem_address);
+                    // console.log(problem_answer);
+                    // console.log(problem_author);
+                    if(problem_title == "" || problem_title == null){
+                        layer.tips("题目名称不能为空！", "#problem_title");
+                    }
+                    else if(problem_type == "" || problem_type == null || problem_type == 0){
+                        layer.tips("题目类型不能为空！", ".layui-select-title");
+                    }
+                    else if(problem_description == "" || problem_description == null){
+                        layer.tips("题目描述不能为空！", ".tcp_content ");
+                    }
+                    else if(problem_answer == "" || problem_answer == null){
+                        layer.tips("题目答案不能为空！", "#problem_answer");
+                    }
+                    else if(problem_author == "" || problem_author == null){
+                        layer.tips("题目作者不能为空！", "#problem_author");
+                    }
+                    else if(problem_sorce == "" || problem_sorce == null){
+                        layer.tips("题目分值不能为空！", "#problem_sorce");
+                    }
+                    else if(problem_address != ""){
+                        uploadInst.upload();
+                    }
+                    else{
+                        add_Problem(problem_title, problem_type, problem_level, problem_description, problem_address, problem_answer, problem_author, problem_sorce, problem_additional_sorce, problem_sorce_float);
+                    }
+                }
+                
+                function add_Problem(problem_title, problem_type, problem_level ,problem_description, problem_address, problem_answer, problem_author, problem_sorce, problem_additional_sorce, problem_sorce_float){
+                    var problem_data = {"questionTitle" : problem_title, "questionTypeId" : parseInt(problem_type), "questionBody" : problem_description, "questionResource" : problem_address,
+                                        "questionAnswer" : problem_answer,  "questionAuthor" : problem_author, "questionPoint" : parseInt(problem_sorce),
+                                        "questionAdditional" : parseInt(problem_additional_sorce),
+                                        "questionDecrease" : parseFloat(problem_sorce_float),"questionLevel" : parseInt(problem_level)};
+                    // console.log(problem_data);
+                    $.ajax({
+                        url : '../../../Question/insertQuestion',
+                        type : 'post',
+                        scriptCharset : 'utf-8',
+                        data : problem_data,
+                        success : function (result) {
+                            if(result.message == null){
+                                layer.open({
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo1', //防止重复弹出
+                                    content: '<div style="padding: 20px 100px;">' + "添加题目成功！" + '</div>',
+                                    btn: '关闭',
+                                    btnAlign: 'c', //按钮居中
+                                    shade: 0.5, //不显示遮罩
+                                    title: "HZNUCTF",
+                                    yes: function () {
+                                        layer.closeAll();
+                                    }
+                                });
+                                $('.layui-btn-primary')[0].click();
+                            }
+                            else {
+                                layer.msg(result.message);
+                            }
+                        }
+                    });
+ 
+                }
+                layui.use('element', function(){
+                    var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+                    //监听导航点击
+                    element.on('nav(demo)', function(elem){
+                        //console.log(elem)
+                        layer.msg(elem.text());
+                    });
+                });
+            </script>
+        </div>
+    </body>
+</html>
