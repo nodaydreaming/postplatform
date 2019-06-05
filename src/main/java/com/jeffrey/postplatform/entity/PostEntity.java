@@ -18,7 +18,6 @@ public class PostEntity {
     private String postState;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "post_id", nullable = false)
     public int getPostId() {
         return postId;

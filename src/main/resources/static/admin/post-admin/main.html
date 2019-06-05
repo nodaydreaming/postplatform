@@ -34,7 +34,7 @@
                     <div class="layui-form component" lay-filter="LAY-site-header-component"></div>
                     <ul class="layui-nav">
                         <li class="layui-nav-item ">
-                        <a href="../../ctf/home.html">返回前台</a>
+                        <a href="../../post/home.html">返回前台</a>
                         </li>
                         <li class="layui-nav-item">
                             <a href="javascript:;">
@@ -67,43 +67,59 @@
                                 </dd>
                             </dl>
                         </li>
-                        
-                        <li class="layui-nav-item bg-color-menu">
-                            <a href="javascript:;"><i class="layui-icon layui-icon-flag" style="font-size:16px;"></i>&nbsp;&nbsp;赛事管理</a>
+                        <li class="layui-nav-item layui-nav-itemed bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-flag" style="font-size:16px;"></i>&nbsp;&nbsp;岗位管理</a>
                             <dl class="layui-nav-child">
                                 <dd class="">
-                                    <a href="contest/add_contest.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;创建赛事</a>
+                                    <a href="post/add_post.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位发布</a>
                                 </dd>
                                 <dd class="">
-                                    <a href="contest/contest_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;赛事列表</a>
+                                    <a href="post/post_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位列表</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="post/post_type.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位分类</a>
                                 </dd>
                             </dl>
                         </li>
-                        
-                        <li class="layui-nav-item bg-color-menu">
-                            <a href="javascript:;"><i class="layui-icon layui-icon-template-1" style="font-size:16px;"></i>&nbsp;&nbsp;题目管理</a>
+                        <li class="layui-nav-item layui-nav-itemed bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-user" style="font-size:16px;"></i>&nbsp;&nbsp;用户管理</a>
                             <dl class="layui-nav-child">
                                 <dd class="">
-                                    <a href="problem/add_problem.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;添加题目</a>
+                                    <a href="user/add_employer.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;添加招聘方</a>
                                 </dd>
                                 <dd class="">
-                                    <a href="problem/problem_set.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目列表</a>
+                                    <a href="user/employer_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;招聘方列表</a>
                                 </dd>
                                 <dd class="">
-                                    <a href="problem/problem_type.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目类型</a>
+                                    <a href="user/user_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户列表</a>
+                                </dd>
                                 </dd>
                             </dl>
                         </li>
-                        
-                        <!-- <li class="layui-nav-item" style="height: 30px; text-align: center"></li> -->
+                        <li class="layui-nav-item layui-nav-itemed bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-set" style="font-size:16px;"></i>&nbsp;&nbsp;管理员管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="admin/add_admin.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;添加管理员</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="admin/admin_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;管理员列表</a>
+                                </dd>
+                            </dl>
+                        </li>
                     </ul>
                 </div>
             </div>
+            <!-- 主体内容 -->
+            <div class="layui-body" id="LAY_app_body">
+
+            </div>
         </div>
+
+
 
         <!-- 引入或者加载脚本 -->
         <script src="../../layui/layui.all.js" charset="utf-8"></script>
-        </div>
         <div id="LAY_democodejs">
             <script>
                 layui.use('element', function(){

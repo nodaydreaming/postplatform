@@ -72,6 +72,7 @@ public class AdminService {
             }
             else{
                 resultMap.put("adminEntity", null);
+                LOGGER.info("查询Id为" + id + "的管理员失败");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -90,7 +91,7 @@ public class AdminService {
         Map<String, Object> resultMap = new HashMap<>();
         try {
             adminRepository.delete(adminEntity);
-            LOGGER.info("删除管理员"+ adminEntity.toString() +"成功");
+            LOGGER.info("删除管理员（"+ adminEntity.getAdminId() +"）成功");
         }catch (Exception e){
             e.printStackTrace();
             resultMap.put("message", "删除失败");
@@ -109,18 +110,50 @@ public class AdminService {
                 a.setAdminId(adminEntity.getAdminId());
                 a.setAdminUsername(adminEntity.getAdminUsername());
                 a.setAdminName(adminEntity.getAdminName());
+                a.setAdminLevel(adminEntity.getAdminLevel());
+                a.setAdminPhoto(adminEntity.getAdminPhoto());
 
                 resultMap.put("loginAdmin", a);
                 LOGGER.info("管理员" + a.getAdminName() + "(" + username + ")登陆成功");
             }
             else{
-                LOGGER.info("管理员名或密码错误");
-                resultMap.put("message", "管理员名或密码错误");
+                LOGGER.info("username:" + username + ",password:" + password + ";用户名或密码错误");
+                resultMap.put("message", "用户名或密码错误");
             }
         }catch (Exception e){
             e.printStackTrace();
             LOGGER.error(e.toString(), e);
             resultMap.put("message", "登陆失败");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 超级管理员重置一般管理员密码
+     * @param adminId
+     * @param newPwd
+     * @return
+     */
+    public Map<String, Object> resetAdminPwd(int adminId, String newPwd){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Optional<AdminEntity> adminOptional = adminRepository.findById(adminId);
+            if(adminOptional.isPresent()){
+                AdminEntity adminEntity = adminOptional.get();
+                //对新密码加密
+                String encryptedPwd = PwdEnCoder.enCoder(newPwd, adminEntity.getAdminTel().substring(0, 8));
+                adminEntity.setAdminPassword(encryptedPwd);
+
+                adminRepository.save(adminEntity);
+                LOGGER.info( "重置管理员（" + adminEntity.getAdminName() + "）的密码，成功");
+            }
+            else{
+                resultMap.put("message", "id为" + adminId + "的管理员不存在");
+                LOGGER.info( "id为" + adminId + "的管理员不存在, 重置密码失败");
+            }
+        }catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "重置密码失败");
         }
         return resultMap;
     }

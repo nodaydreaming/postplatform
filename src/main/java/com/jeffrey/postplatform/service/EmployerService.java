@@ -36,7 +36,7 @@ public class EmployerService {
         Map<String, Object> resultMap = new HashMap<>();
         try {
             employerRepository.delete(employerEntity);
-            LOGGER.info("删除招聘方成功");
+            LOGGER.info("删除招聘方（"+ employerEntity.getEmployerName() +"）成功");
         } catch (Exception e){
             LOGGER.error(e.toString(), e);
             resultMap.put("message", "删除招聘方失败");
@@ -50,7 +50,9 @@ public class EmployerService {
             Optional<EmployerEntity> oldEmployer = employerRepository.findById(employerEntity.getEmployerId());
             if(oldEmployer.isPresent()){
                 EmployerEntity employer = oldEmployer.get();
+
                 employer.setEmployerName(employerEntity.getEmployerName());
+                employer.setEmployerContact(employerEntity.getEmployerContact());
                 employer.setEmployerTel(employerEntity.getEmployerTel());
                 employer.setEmployerType(employerEntity.getEmployerType());
                 employer.setEmployerDescription(employerEntity.getEmployerDescription());

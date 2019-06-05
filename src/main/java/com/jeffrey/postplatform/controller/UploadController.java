@@ -26,13 +26,18 @@ public class UploadController {
             resultMap.put("message", "上传失败，请选择文件");
         }
         else{
-            String filePath = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/adminPhoto";
+            String filePath = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/upload/adminPhoto";
+            File floder = new File(filePath);
+            if(!floder.exists()){
+                floder.mkdirs();
+            }
+
             String fileName = RandomUtil.getRandomFileName() + file.getOriginalFilename();
-            File dest = new File(filePath + fileName);
+            File dest = new File(filePath + "/" +fileName);
             try {
                 file.transferTo(dest);
                 LOGGER.info("上传成功");
-                resultMap.put("photoAddr", filePath + "");
+                resultMap.put("photoAddr", "/post-platform/upload/adminPhoto/" + fileName);
             } catch (IOException e) {
                 LOGGER.error(e.toString(), e);
                 resultMap.put("message", "上传失败");

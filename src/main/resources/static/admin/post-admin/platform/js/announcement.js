@@ -3,47 +3,54 @@
  * 主要包含 以下函数
  * 添加公告、修改公告、删除公告
  */
-var announcement_list = [{"title":"第一条公告，测试使用！","content":"这是第一条公告的内容，测试使用数据这是第一条公告的内容，测试使用数据这是第一条公告的内容，测试使用数据这是第一条公告的内容，测试使用数据！"},
+var notice_list = [{"title":"第一条公告，测试使用！","content":"这是第一条公告的内容，测试使用数据这是第一条公告的内容，测试使用数据这是第一条公告的内容，测试使用数据这是第一条公告的内容，测试使用数据！"},
                          {"title":"第er条公告，测试使用！","content":"这是第er条公告的内容，测试使用数据！"},
                          {"title":"第san条公告，测试使用！","content":"这是第san条公告的内容，测试使用数据！"}];
-var announcement_title, announcement_content;
+var notice_title, notice_content;
 window.onload = function () {
     // 此ajax不适用于main.html页面获取管理员信息
     $.ajax({
-        url : '../../../admin/getAdminMap',
+        url : '../../../admin/getLoginAdmin',
         type : 'post',
         scriptCharset : 'utf-8',
         success : function (result) {
-            // console.log(result);
-            var loginAdmin = result.loginAdmin;
-            //设置登陆用户的昵称
-            if(loginAdmin.adminNickname != null){
-                ($('.layui-nav-img')[0].parentNode).childNodes[2].data = loginAdmin.adminNickname;
+            if(result.loginAdmin != null){
+                var loginAdmin = result.loginAdmin;
+                //设置登陆用户的昵称
+                if(loginAdmin.adminName != null){
+                    ($('.layui-nav-img')[0].parentNode).childNodes[2].data = loginAdmin.adminName;
+                }
+                //设置登陆用户的头像
+                if(loginAdmin.adminPhoto != null && loginAdmin.adminPhoto != ""){
+                    $('.layui-nav-img').attr("src", loginAdmin.adminPhoto);
+                }
+                //判断是否是超级管理员
+                if(loginAdmin.adminLevel != 2){
+                    $('.layui-nav-item')[5].remove();
+                }
             }
-            //设置登陆用户的头像
-            if(loginAdmin.adminPhoto != null){
-                $('.layui-nav-img').attr("src", loginAdmin.adminPhoto);
-            }
-            //判断是否是超级管理员
-            if(loginAdmin.status != 2){
 
-            }
         },
         error : function () {
             layer.msg("请求失败！");
         }
     });
-    fillAnnouncement();
+    getNotices();
 };
 
-function getAnnouncements() {
+function getNotices() {
     $.ajax({
-        url : '',
+        url : '../../../notice/findAllNotices',
         type : 'post',
         scriptCharset : 'utf-8',
         success : function (result) {
             if(result.message == null){
-                fillAnnouncement(result.announcements);
+                if(result.noticeList != null){
+                    fillNotice(result.noticeList);
+                }
+            }
+            else{
+                layer.msg(result.message);
             }
         },
         error : function () {
@@ -53,13 +60,13 @@ function getAnnouncements() {
     });
 }
 
-function fillAnnouncement() {
-    announcement_list;
+function fillNotice() {
+    notice_list = arguments[0];
     var tbody = document.getElementsByTagName('tbody')[0];
     $('tbody').html("");
 
-    for (var i = 0; i < announcement_list.length; ++i){
-        var announcement = announcement_list[i];
+    for (var i = 0; i < notice_list.length; ++i){
+        var notice = notice_list[i];
         var tr = document.createElement('tr');
 
         var td1 = document.createElement('td');
@@ -68,18 +75,28 @@ function fillAnnouncement() {
         tr.appendChild(td1);
 
         var td2 = document.createElement('td');
-        td2.innerText = announcement.title;
+        td2.innerText = notice.noticeTitle;
         td2.style.wordWrap = "break-word";
         tr.appendChild(td2);
 
         var td4 = document.createElement('td');
-        td4.innerText = announcement.content;
-        td4.title = announcement.content;
+        td4.innerText = notice.noticeContent;
+        td4.title = notice.noticeContent;
         td4.style.maxWidth = "50%";
         td4.style.whiteSpace = "nowrap";
         td4.style.textOverflow = "ellipsis";
         td4.style.overflow = "hidden";
         tr.appendChild(td4);
+
+        var td5 = document.createElement('td');
+        td5.innerText = new Date(notice.noticeDate).Format("yyyy-MM-dd hh:mm:ss");
+        td5.style.wordWrap = "break-word";
+        tr.appendChild(td5);
+
+        var td6 = document.createElement('td');
+        td6.innerText = notice.noticeAuthor;
+        td6.style.wordWrap = "break-word";
+        tr.appendChild(td6);
 
         var td3 = document.createElement('td');
         td3.style.textAlign = "center";
@@ -92,7 +109,7 @@ function fillAnnouncement() {
         i1.className = "layui-icon layui-icon-edit";
         a1.appendChild(i1);
         a1.innerHTML = a1.innerHTML + "编辑";
-        a1.onclick = editAnnouncement;
+        a1.onclick = editnotice;
 
         var a2 = document.createElement('a');
         a2.id = "delPaper" + (i+1);
@@ -101,7 +118,7 @@ function fillAnnouncement() {
         i2.className = "layui-icon layui-icon-delete";
         a2.appendChild(i2);
         a2.innerHTML = a2.innerHTML + "删除";
-        a2.onclick = delAnnouncement;
+        a2.onclick = delnotice;
 
         td3.appendChild(a1);
         td3.appendChild(a2);
@@ -111,7 +128,7 @@ function fillAnnouncement() {
     }
 }
 
-function open_add_announcement() {
+function open_add_notice() {
     layer.open({
         type: 1,
         offset: 'auto',
@@ -123,7 +140,7 @@ function open_add_announcement() {
             '    <div class="layui-form-item">\n' +
             '        <label class="layui-form-label">公告标题</label>\n' +
             '        <div class="layui-input-block">\n' +
-            '            <input type="text" id="announcement_title" autocomplete="off" placeholder="请输入公告标题" required class="layui-input" style="width: 80%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">\n' +
+            '            <input type="text" id="notice_title" autocomplete="off" placeholder="请输入公告标题" required class="layui-input" style="width: 80%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">\n' +
             '        </div>\n' +   
             '    </div>\n' +
             '    <div class="layui-form-item">\n' +
@@ -147,7 +164,7 @@ function open_add_announcement() {
         shade: 0.5,
         title: "添加公告",
         btn1 : function () {
-            add_announcement();
+            add_notice();
             return false;
         },
         btn2 : function () {
@@ -156,25 +173,25 @@ function open_add_announcement() {
     });
 }
 
-function add_announcement() {
-    announcement_content = $('.tcp_content').val();
-    announcement_title = $("#announcement_title").val();
-    if(announcement_title === "" || announcement_title == null){
-        layer.tips("标题不能为空！", "#announcement_title");
+function add_notice() {
+    notice_content = $('.tcp_content').val();
+    notice_title = $("#notice_title").val();
+    if(notice_title === "" || notice_title == null){
+        layer.tips("标题不能为空！", "#notice_title");
     }
-    else if(announcement_content == null || announcement_content === ""){
+    else if(notice_content == null || notice_content === ""){
         layer.tips("内容不能为空！", ".tcp_content");
     }
     else{
-        add_Announcement(announcement_title, announcement_content);
+        add_Notice(notice_title, notice_content);
     }
 }
 
-function add_Announcement(announcement_title, announcement_content) {
+function add_Notice(notice_title, notice_content) {
     $.ajax({
-        url : '',
+        url : '../../../notice/saveNotice',
         type : 'post',
-        data : {"title" : announcement_title, "content" : announcement_content},
+        data : {"noticeTitle" : notice_title, "noticeContent" : notice_content},
         scriptCharset : 'utf-8',
         success : function (result) {
             if(result.message == null) {
@@ -186,12 +203,12 @@ function add_Announcement(announcement_title, announcement_content) {
                     btn: '关闭',
                     btnAlign: 'c', //按钮居中
                     shade: 0.5, //不显示遮罩
-                    title: "HZNUCTF",
+                    title: "HZNUPOST",
                     yes: function () {
                         layer.closeAll();
                     }
                 });
-                getAnnouncements();
+                getNotices();
             }
             else{
                 layer.msg(result.message);
@@ -203,10 +220,10 @@ function add_Announcement(announcement_title, announcement_content) {
     });
 }
 
-function editAnnouncement() {
+function editnotice() {
     var tr = this.parentNode.parentNode;
     var num = tr.childNodes[0].innerText;
-    var announcement = announcement_list[num-1];
+    var notice = notice_list[num-1];
     layer.open({
         type: 1,
         offset: 'auto',
@@ -218,7 +235,7 @@ function editAnnouncement() {
         '    <div class="layui-form-item">\n' +
         '        <label class="layui-form-label">公告标题</label>\n' +
         '        <div class="layui-input-block">\n' +
-        '            <input type="text" id="announcement_title" autocomplete="off" placeholder="请输入公告标题" required class="layui-input layui-disabled" disabled value="'+ announcement.title +'"style="width: 80%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">\n' +
+        '            <input type="text" id="notice_title" autocomplete="off" placeholder="请输入公告标题" required class="layui-input" value="'+ notice.noticeTitle +'"style="width: 80%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">\n' +
         '        </div>\n' +   
         '    </div>\n' +
         '    <div class="layui-form-item">\n' +
@@ -226,8 +243,8 @@ function editAnnouncement() {
         '        <div class="layui-input-block">\n' +
         '           <textarea class="tcp_content layui-textarea" placeholder="请输入公告内容"\n' +
         '                     style="width: 80%; height: 130px; resize:none" maxlength="300"\n' +
-        '                     onchange="textarea_fun()" onkeydown="textarea_fun()" onkeyup="textarea_fun()">'+ announcement.content +'</textarea>\n' +
-        '           <span class="t_h" style="float: right; margin-right: 20%"><i>'+ announcement.content.length +'</i>/300</span>\n' +
+        '                     onchange="textarea_fun()" onkeydown="textarea_fun()" onkeyup="textarea_fun()">'+ notice.noticeContent +'</textarea>\n' +
+        '           <span class="t_h" style="float: right; margin-right: 20%"><i>'+ notice.noticeContent.length +'</i>/300</span>\n' +
         '        </div>\n' +
         '    </div>\n' +
         '</form>\n' +
@@ -242,7 +259,7 @@ function editAnnouncement() {
         shade: 0.5,
         title: "更新公告信息",
         btn1 : function () {
-            edit_announcement(announcement);
+            edit_notice(notice);
             return false;
         },
         btn2 : function () {
@@ -251,24 +268,27 @@ function editAnnouncement() {
     });
 }
 
-function edit_announcement() {
-    var announcement = arguments[0];
-    announcement_content = $('.tcp_content').val();
-
-    if(announcement_content == null || announcement_content == ""){
+function edit_notice() {
+    var notice = arguments[0];
+    notice_content = $('.tcp_content').val();
+    notice_title = $("#notice_title").val();
+    if(notice_title === "" || notice_title == null){
+        layer.tips("标题不能为空！", "#notice_title");
+    }
+    else if(notice_content == null || notice_content === ""){
         layer.tips("内容不能为空！", ".tcp_content");
     }
     else{
-        updateAnnouncement(announcement.title, announcement_content);
+        updatenotice(notice.noticeId, notice_title, notice_content);
     }
 
 }
 
-function updateAnnouncement(title, content) {
+function updatenotice(id, title, content) {
     $.ajax({
-        url : '',
+        url : '../../../notice/updateNotice',
         type : 'post',
-        data : {"name" : title, "content" : content},
+        data : {"noticeId":id, "noticeTitle" : title, "noticeContent" : content},
         scriptCharset : 'utf-8',
         success : function (result) {
             if(result.message == null) {
@@ -280,12 +300,12 @@ function updateAnnouncement(title, content) {
                     btn: '关闭',
                     btnAlign: 'c', //按钮居中
                     shade: 0.5, //不显示遮罩
-                    title: "HZNUCTF",
+                    title: "HZNUPOST",
                     yes: function () {
                         layer.closeAll();
                     }
                 });
-                getAnnouncements();
+                getNotices();
             }
             else{
                 layer.msg(result.message);
@@ -297,10 +317,10 @@ function updateAnnouncement(title, content) {
     });
 }
 
-function delAnnouncement() {
+function delnotice() {
     var tr = this.parentNode.parentNode;
     var num = tr.childNodes[0].innerText;
-    var announcement = announcement_list[num-1];
+    var notice = notice_list[num-1];
     layer.open({
         type: 1,
         offset: 'auto', //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
@@ -311,7 +331,7 @@ function delAnnouncement() {
         shade: 0.5, //不显示遮罩
         title: "删除公告",
         btn1 : function () {
-            delannouncement(announcement);
+            delNotice(notice);
             return false;
         },
         btn2 : function () {
@@ -320,12 +340,12 @@ function delAnnouncement() {
     });
 }
 
-function delannouncement() {
-    var id = arguments[0].id;
+function delNotice() {
+    var id = arguments[0].noticeId;
     $.ajax({
-        url : '',
+        url : '../../../notice/deleteNotice',
         type : 'post',
-        data : {"announcementid" : id},
+        data : {"noticeId" : id},
         scriptCharset : 'utf-8',
         success : function (result) {
             if(result.message == null){
@@ -337,12 +357,12 @@ function delannouncement() {
                     btn: '确定',
                     btnAlign: 'c', //按钮居中
                     shade: 0.5, //不显示遮罩
-                    title: "HZNUCTF",
+                    title: "HZNUPOST",
                     yes : function () {
                         layer.closeAll();
                     }
                 });
-                getAnnouncements();
+                getNotices();
             }
             else{
                 layer.msg(result.message);

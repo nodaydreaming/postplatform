@@ -2,7 +2,6 @@ function inputLimit(){
     var input = window.event.target;
     input.value = input.value.substring(0,100); if(window.event.keyCode ==13) return false;
 }
-
 //管理员修改自身信息
 function openUpdate() {
     var user = arguments[0];
@@ -325,10 +324,11 @@ function updateAdmin(photo, username, gender, nickname, telephone){
         }
     });
 }
+
 //管理员退出登录
 function signOut() {
     $.ajax({
-        url: '../../../admin/quitAdmin',
+        url: '../../../admin/signout',
         type: 'post',
         scriptType: 'utf-8',
         success: function (result) {

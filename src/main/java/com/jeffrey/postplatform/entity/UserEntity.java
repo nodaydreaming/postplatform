@@ -19,7 +19,6 @@ public class UserEntity {
     private Double userReputation;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     public int getUserId() {
         return userId;

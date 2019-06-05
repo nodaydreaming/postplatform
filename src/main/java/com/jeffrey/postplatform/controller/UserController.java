@@ -6,13 +6,16 @@ import com.jeffrey.postplatform.util.PwdEnCoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -59,15 +62,31 @@ public class UserController {
      * 查询所有用户
      * @return
      */
-    @PostMapping("/findAllUsers")
-    public Map<String, Object> findAllUsers() {
+    @GetMapping("/findAllUsers")
+    public Map<String, Object> findAllUsers(int page, int limit) {
         Map<String, Object> resultMap = new HashMap<>();
         try {
             Map<String, Object> map = userService.findAllUsers();
             if (map.containsKey("message")) {
                 resultMap.put("message", map.get("message"));
             } else if (map.containsKey("userList")) {
-                resultMap.put("userList", map.get("userList"));
+                List<UserEntity> list = (List) map.get("userList");
+                List<UserEntity> resultList = new ArrayList<>();
+
+                int id = 1;
+                for(UserEntity u : list){
+                    u.setUserPassword(id + "");
+                    id++;
+                }
+                int begin = (page - 1) * limit;
+                int end = begin + limit;
+                for(int i = begin; i < end && i < list.size(); i++){
+                    resultList.add(list.get(i));
+                }
+                resultMap.put("code", 0);
+                resultMap.put("msg", "");
+                resultMap.put("count", list.size());
+                resultMap.put("data", resultList);
             }
         } catch (Exception e) {
             LOGGER.error(e.toString(), e);
@@ -187,6 +206,21 @@ public class UserController {
         } catch (Exception e){
             resultMap.put("message", "登出失败");
             e.printStackTrace();
+            LOGGER.error(e.toString(), e);
+        }
+        return resultMap;
+    }
+
+    @PostMapping("/adminResetUserPwd")
+    public Map<String, Object> adminResetUserPwd(int adminId, String newPwd){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Map<String, Object> map = userService.adminResetUserPwd(adminId, newPwd);
+            if(map.containsKey("message")){
+                resultMap.put("message", map.get("message"));
+            }
+        } catch (Exception e){
+            resultMap.put("message", "重置id为" + adminId + "的用户的密码失败");
             LOGGER.error(e.toString(), e);
         }
         return resultMap;

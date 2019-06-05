@@ -137,4 +137,28 @@ public class UserService {
 
         return resultMap;
     }
+
+    public Map<String, Object> adminResetUserPwd(int userId, String newPwd){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Optional<UserEntity> userOptional = userRepository.findById(userId);
+            if(userOptional.isPresent()){
+                UserEntity userEntity = userOptional.get();
+                //对新密码加密
+                String encryptedPwd = PwdEnCoder.enCoder(newPwd, userEntity.getUserTel().substring(0, 8));
+                userEntity.setUserPassword(encryptedPwd);
+
+                userRepository.save(userEntity);
+                LOGGER.info( "重置管理员（" + userEntity.getUserName() + "）的密码，成功");
+            }
+            else{
+                resultMap.put("message", "id为" + userId + "的管理员不存在");
+                LOGGER.info( "id为" + userId + "的管理员不存在, 重置密码失败");
+            }
+        } catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "重置密码失败");
+        }
+        return resultMap;
+    }
 }

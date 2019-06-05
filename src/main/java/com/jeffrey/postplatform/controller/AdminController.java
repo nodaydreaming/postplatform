@@ -6,14 +6,16 @@ import com.jeffrey.postplatform.util.PwdEnCoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -50,7 +52,7 @@ public class AdminController {
             }
         }catch (Exception e){
             LOGGER.error(e.toString(), e);
-            resultMap.put("message", "添加失败");
+            resultMap.put("message", "新增管理员失败");
         }
         return resultMap;
     }
@@ -59,8 +61,8 @@ public class AdminController {
      * 查询所有管理员
      * @return
      */
-    @PostMapping("/findAllAdmins")
-    public Map<String, Object> findAllAdmins(){
+    @GetMapping("/findAllAdmins")
+    public Map<String, Object> findAllAdmins(int page, int limit){
         Map<String, Object> resultMap = new HashMap<>();
         try {
             Map<String, Object> map = adminService.findAllAdmins();
@@ -68,11 +70,27 @@ public class AdminController {
                 resultMap.put("message", map.get("message"));
             }
             else if(map.containsKey("adminList")){
-                resultMap.put("adminList", map.get("adminList"));
+                List<AdminEntity> list = (List) map.get("adminList");
+                List<AdminEntity> resultList = new ArrayList<>();
+                int id = 1;
+                for(AdminEntity a : list){
+                    a.setAdminPassword(id + "");
+                    id++;
+                }
+                int begin = (page - 1) * limit;
+                int end = begin + limit;
+                for(int i = begin; i < end && i < list.size(); i++){
+                    resultList.add(list.get(i));
+                }
+                resultMap.put("code", 0);
+                resultMap.put("msg", "");
+                resultMap.put("count", list.size());
+                resultMap.put("data", resultList);
+                LOGGER.info("查询所有管理员成功");
             }
         }catch (Exception e){
             LOGGER.error(e.toString(), e);
-            resultMap.put("message", "查询失败");
+            resultMap.put("message", "查询所有管理员失败");
         }
         return resultMap;
     }
@@ -92,7 +110,7 @@ public class AdminController {
             }
         } catch (Exception e){
             LOGGER.error(e.toString(), e);
-            resultMap.put("message", "删除失败");
+            resultMap.put("message", "删除管理员（"+ adminEntity.getAdminName() +"）失败");
         }
         return resultMap;
     }
@@ -196,6 +214,22 @@ public class AdminController {
             session.removeAttribute("loginAdmin");
         } catch (Exception e){
             resultMap.put("message", "登出失败");
+            e.printStackTrace();
+            LOGGER.error(e.toString(), e);
+        }
+        return resultMap;
+    }
+
+    @PostMapping("/resetAdminPwd")
+    public Map<String, Object> resetAdminPwd(int adminId, String newPwd){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Map<String, Object> map = adminService.resetAdminPwd(adminId, newPwd);
+            if(map.containsKey("message")){
+                resultMap.put("message", map.get("message"));
+            }
+        } catch (Exception e){
+            resultMap.put("message", "重置id为" + adminId + "的管理员的密码失败");
             e.printStackTrace();
             LOGGER.error(e.toString(), e);
         }

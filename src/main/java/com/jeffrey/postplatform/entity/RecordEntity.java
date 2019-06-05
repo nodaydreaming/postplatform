@@ -13,7 +13,6 @@ public class RecordEntity {
     private Integer postId;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "record_id", nullable = false)
     public int getRecordId() {
         return recordId;
@@ -59,12 +58,14 @@ public class RecordEntity {
         if (o == null || getClass() != o.getClass()) return false;
         RecordEntity that = (RecordEntity) o;
         return recordId == that.recordId &&
-                Objects.equals(recordDate, that.recordDate);
+                Objects.equals(recordDate, that.recordDate) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(postId, that.postId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recordId, recordDate);
+        return Objects.hash(recordId, recordDate, userId, postId);
     }
 
     @Override
