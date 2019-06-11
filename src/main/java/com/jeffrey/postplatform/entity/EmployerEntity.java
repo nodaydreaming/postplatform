@@ -7,23 +7,16 @@ import java.util.Objects;
 @Table(name = "employer", schema = "postplatform")
 public class EmployerEntity {
     private int employerId;
-    private int orderId;
     private String employerName;
     private String employerContact;
     private String employerTel;
     private String employerType;
     private String employerDescription;
     private Double employerReputation;
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
+    private int orderId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employer_id", nullable = false)
     public int getEmployerId() {
         return employerId;
@@ -93,23 +86,31 @@ public class EmployerEntity {
         this.employerReputation = employerReputation;
     }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EmployerEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         EmployerEntity that = (EmployerEntity) o;
-        return getEmployerId() == that.getEmployerId() &&
-                Objects.equals(getEmployerName(), that.getEmployerName()) &&
-                Objects.equals(getEmployerContact(), that.getEmployerContact()) &&
-                Objects.equals(getEmployerTel(), that.getEmployerTel()) &&
-                Objects.equals(getEmployerType(), that.getEmployerType()) &&
-                Objects.equals(getEmployerDescription(), that.getEmployerDescription()) &&
-                Objects.equals(getEmployerReputation(), that.getEmployerReputation());
+        return employerId == that.employerId &&
+                Objects.equals(employerName, that.employerName) &&
+                Objects.equals(employerContact, that.employerContact) &&
+                Objects.equals(employerTel, that.employerTel) &&
+                Objects.equals(employerType, that.employerType) &&
+                Objects.equals(employerDescription, that.employerDescription) &&
+                Objects.equals(employerReputation, that.employerReputation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEmployerId(), getEmployerName(), getEmployerContact(), getEmployerTel(), getEmployerType(), getEmployerDescription(), getEmployerReputation());
+        return Objects.hash(employerId, employerName, employerContact, employerTel, employerType, employerDescription, employerReputation);
     }
 
     @Override

@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -43,6 +40,8 @@ public class UserController {
             userEntity.setUserPassword(encryptedPwd);
             //设置初始信誉值
             userEntity.setUserReputation(50.0);
+            //记录用户创建时间
+            userEntity.setUserCreateDate(new Date());
             //保存到数据库
             Map<String, Object> map = userService.saveUserEntity(userEntity);
             if (map.containsKey("message")) {
@@ -138,42 +137,71 @@ public class UserController {
     }
 
     /**
+     * 根据学号查询用户
+     * @param userStuNumber
+     * @return
+     */
+    @PostMapping("/findUserByStuNumber")
+    public Map<String, Object> findUserByUserStuNumber(String userStuNumber) {
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Map<String, Object> map = userService.findUserByUserStuNumber(userStuNumber);
+            if (map.containsKey("message")) {
+                resultMap.put("message", map.get("message"));
+            } else if (map.containsKey("userEntity") && map.get("userEntity") != null) {
+                resultMap.put("userEntity", true);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "查询失败");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 根据手机号查询用户
+     * @param userTel
+     * @return
+     */
+    @PostMapping("/findUserByUserTel")
+    public Map<String, Object> findUserByUserTel(String userTel) {
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Map<String, Object> map = userService.findUserByUserTel(userTel);
+            if (map.containsKey("message")) {
+                resultMap.put("message", map.get("message"));
+            } else if (map.containsKey("userEntity") && map.get("userEntity") != null) {
+                resultMap.put("userEntity", true);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "查询失败");
+        }
+        return resultMap;
+    }
+
+    /**
      * 用户登陆
      * @param request
-     * @param userEntity
+     * @param password
      * @return
      */
     @PostMapping("/userLogin")
-    public Map<String, Object> userLogin(HttpServletRequest request, UserEntity userEntity){
+    public Map<String, Object> userLogin(HttpServletRequest request, String account, String password){
         Map<String, Object> resultMap = new HashMap<>();
-        String username;
-        String password;
         try {
-            if(userEntity.getUserUsername() != null && !"".equals(userEntity.getUserUsername())){
-                username = userEntity.getUserUsername();
-                if(userEntity.getUserPassword() != null && !"".equals(userEntity.getUserPassword())){
-                    password = userEntity.getUserPassword();
-                    //调用service层业务逻辑
-                    Map<String, Object> map = userService.userLogin(username, password);
-                    if (map.containsKey("message")) {
-                        resultMap.put("message", map.get("message"));
-                        LOGGER.info(map.get("message").toString());
-                    } else if (map.containsKey("loginUser")) {
-                        UserEntity loginUser = (UserEntity) map.get("loginUser");
-                        //将登陆的用户保存到session中
-                        request.getSession().setAttribute("loginUser", loginUser);
-                        LOGGER.info("用户（" + loginUser.getUserName() + "）登陆");
-                    }
-                }
-                else{
-                    LOGGER.info("密码为空");
-                    resultMap.put("message", "请输入密码");
-                }
+            //调用service层业务逻辑
+            Map<String, Object> map = userService.userLogin(account, password);
+            if (map.containsKey("message")) {
+                resultMap.put("message", map.get("message"));
+                LOGGER.info(map.get("message").toString());
+            } else if (map.containsKey("loginUser")) {
+                UserEntity loginUser = (UserEntity) map.get("loginUser");
+                //将登陆的用户保存到session中
+                request.getSession().setAttribute("loginUser", loginUser);
+                LOGGER.info("用户（" + loginUser.getUserName() + "）登陆");
             }
-            else{
-                LOGGER.info("用户名为空");
-                resultMap.put("message", "请输入用户名");
-            }
+
         } catch (Exception e) {
             LOGGER.error(e.toString(), e);
             resultMap.put("message", "登陆失败");

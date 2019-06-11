@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -97,4 +98,30 @@ public class NoticeController {
         }
         return resultMap;
     }
+
+    @PostMapping("/showNotice")
+    public Map<String, Object> showNotice(){
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            Map<String, Object> map = noticeService.findAllNotices();
+            if(map.containsKey("message")){
+                resultMap.put("message", map.get("message"));
+            }
+            else if(map.containsKey("noticeList")){
+                List<NoticeEntity> list = (List) map.get("noticeList");
+                if(list.size() > 5){
+                    List<NoticeEntity> noticeList = list.subList(0, 6);
+                    resultMap.put("noticeList", noticeList);
+                }
+                else{
+                    resultMap.put("noticeList", list);
+                }
+            }
+        } catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "获得公告失败");
+        }
+        return resultMap;
+    }
+
 }

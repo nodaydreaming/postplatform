@@ -101,28 +101,42 @@ public class UserService {
 
     /**
      * 用户登陆逻辑
-     * @param username
+     * @param account
      * @param password
      * @return
      */
-    public Map<String, Object> userLogin(String username, String password){
+    public Map<String, Object> userLogin(String account, String password){
         Map<String, Object> resultMap = new HashMap<>();
         try {
-            UserEntity userEntity = userRepository.findUserEntityByUserUsername(username);
-            String encryptedPwd = PwdEnCoder.enCoder(password, userEntity.getUserTel().substring(0, 8));
-            if(encryptedPwd.equals(userEntity.getUserPassword())){
-                UserEntity u = new UserEntity();
-                u.setUserId(userEntity.getUserId());
-                u.setUserName(userEntity.getUserName());
-                u.setUserUsername(userEntity.getUserUsername());
+            //通过手机号查找
+            UserEntity userEntity = userRepository.findUserEntityByUserTel(account);
+            if(userEntity == null){
+                //通过学号查找
+                userEntity = userRepository.findUserEntityByUserStuNumber(account);
+            }
+            if(userEntity != null){
+                //密码加密
+                String encryptedPwd = PwdEnCoder.enCoder(password, userEntity.getUserTel().substring(0, 8));
+                if(encryptedPwd.equals(userEntity.getUserPassword())){
+                    UserEntity u = new UserEntity();
+                    u.setUserId(userEntity.getUserId());
+                    u.setUserName(userEntity.getUserName());
+                    u.setUserStuNumber(userEntity.getUserStuNumber());
+                    u.setUserTel(userEntity.getUserTel());
 
-                resultMap.put("loginUser", u);
-                LOGGER.info("用户" + userEntity.getUserName() + "(" + username + ")登陆成功");
+                    resultMap.put("loginUser", u);
+                    LOGGER.info("用户（" + userEntity.getUserName() + "）登陆成功");
+                }
+                else{
+                    LOGGER.info("用户名或密码错误");
+                    resultMap.put("message", "用户名或密码错误");
+                }
             }
             else{
-                LOGGER.info("用户名或密码错误");
-                resultMap.put("message", "用户名或密码错误");
+                //通过手机号和学号都没有查找到用户
+                resultMap.put("message", "此账号无对应用户");
             }
+
         }catch (Exception e){
             e.printStackTrace();
             LOGGER.error(e.toString(), e);
@@ -158,6 +172,52 @@ public class UserService {
         } catch (Exception e){
             LOGGER.error(e.toString(), e);
             resultMap.put("message", "重置密码失败");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 根据学号查询用户
+    * @param userStuNumber
+     * @return
+     */
+    public Map<String, Object> findUserByUserStuNumber(String userStuNumber){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            UserEntity userEntity = userRepository.findUserEntityByUserStuNumber(userStuNumber);
+            if(userEntity != null){
+                resultMap.put("userEntity", userEntity);
+                LOGGER.info("查询学号为" + userStuNumber + "的用户成功");
+            }
+            else{
+                resultMap.put("userEntity", null);
+            }
+        }catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "查找失败");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 根据手机号查询用户
+     * @param userTel
+     * @return
+     */
+    public Map<String, Object> findUserByUserTel(String userTel){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            UserEntity userEntity = userRepository.findUserEntityByUserTel(userTel);
+            if(userEntity != null){
+                resultMap.put("userEntity", userEntity);
+                LOGGER.info("查询手机号为" + userTel + "的用户成功");
+            }
+            else{
+                resultMap.put("userEntity", null);
+            }
+        }catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "查找失败");
         }
         return resultMap;
     }

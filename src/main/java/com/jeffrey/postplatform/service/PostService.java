@@ -23,6 +23,7 @@ public class PostService {
     public Map<String, Object> savePost(PostEntity postEntity){
         Map<String, Object> resultMap = new HashMap<>();
         try {
+            postEntity.setPostState(1);
             PostEntity newPost = postRepository.save(postEntity);
             resultMap.put("newPost", newPost);
             LOGGER.info("添加岗位成功");
@@ -53,6 +54,7 @@ public class PostService {
                 PostEntity post = oldPost.get();
                 post.setPostName(postEntity.getPostName());
                 post.setPostType(postEntity.getPostType());
+                post.setPostEmployer(postEntity.getPostEmployer());
                 post.setPostStarttime(postEntity.getPostStarttime());
                 post.setPostEndtime(postEntity.getPostEndtime());
                 post.setPostNumber(postEntity.getPostNumber());
@@ -81,6 +83,19 @@ public class PostService {
             List<PostEntity> list = postRepository.findAll();
             resultMap.put("postList", list);
             LOGGER.info("查找所有岗位成功，一共有" + list.size() + "个岗位");
+        } catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "查找所有岗位失败");
+        }
+        return resultMap;
+    }
+
+    public Map<String, Object> findAllByPostType(String postType){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            List<PostEntity> list = postRepository.findAllByPostType(postType);
+            resultMap.put("postList", list);
+            LOGGER.info("查找类型为："+ postType +" 的岗位成功，一共有" + list.size() + "个岗位");
         } catch (Exception e){
             LOGGER.error(e.toString(), e);
             resultMap.put("message", "查找所有岗位失败");

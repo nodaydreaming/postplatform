@@ -1,6 +1,7 @@
 package com.jeffrey.postplatform.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -17,8 +18,10 @@ public class UserEntity {
     private String userCollege;
     private String userClass;
     private Double userReputation;
+    private Date userCreateDate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     public int getUserId() {
         return userId;
@@ -128,6 +131,16 @@ public class UserEntity {
         this.userReputation = userReputation;
     }
 
+    @Basic
+    @Column(name = "user_create_date", nullable = true)
+    public Date getUserCreateDate() {
+        return userCreateDate;
+    }
+
+    public void setUserCreateDate(Date userCreateDate) {
+        this.userCreateDate = userCreateDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -143,12 +156,13 @@ public class UserEntity {
                 Objects.equals(userStuNumber, that.userStuNumber) &&
                 Objects.equals(userCollege, that.userCollege) &&
                 Objects.equals(userClass, that.userClass) &&
-                Objects.equals(userReputation, that.userReputation);
+                Objects.equals(userReputation, that.userReputation) &&
+                Objects.equals(userCreateDate, that.userCreateDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userUsername, userPassword, userName, userGender, userTel, userEmail, userStuNumber, userCollege, userClass, userReputation);
+        return Objects.hash(userId, userUsername, userPassword, userName, userGender, userTel, userEmail, userStuNumber, userCollege, userClass, userReputation, userCreateDate);
     }
 
     @Override
@@ -165,6 +179,7 @@ public class UserEntity {
                 ", userCollege='" + userCollege + '\'' +
                 ", userClass='" + userClass + '\'' +
                 ", userReputation=" + userReputation +
+                ", userCreateDate=" + userCreateDate +
                 '}';
     }
 }

@@ -16,6 +16,8 @@
 
         <script type="text/javascript" src="../js/jquery-3.3.1.js"></script>
         <script src="../js/general.js" charset="utf-8"></script>
+        <script src="../../../layui/layui.js" charset="utf-8"></script>
+        <script src="js/add_post.js" charset="utf-8"></script>
 
         <style>
             .bg-color-menu {
@@ -60,6 +62,9 @@
                         <li class="layui-nav-item bg-color-menu">
                             <a href="javascript:;"><i class="layui-icon layui-icon-home" style="font-size:16px;"></i>&nbsp;&nbsp;平台管理</a>
                             <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../main.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主页</a>
+                                </dd>
                                 <dd class="">
                                     <a href="../platform/data_statistics.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据统计</a>
                                 </dd>
@@ -113,96 +118,83 @@
             </div>
             <!-- 主体内容 -->
             <div class="layui-body" id="LAY_app_body">
-                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
                     <legend>添加岗位</legend>
                 </fieldset>
-                <form class="layui-form" action="" style="margin:50px 0 0 5%; font-size:15px">
+                <form class="layui-form" action="" style="margin:20px 0 0 5%; font-size:15px;">
                     <div class="layui-form-item">
                         <label class="layui-form-label">岗位名称</label>
                         <div class="layui-input-block">
-                        <input type="text" id="contest_title" autocomplete="off" placeholder="请输入岗位名称" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        <input type="text" id="post_name" autocomplete="off" placeholder="请输入岗位名称" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">岗位编号</label>
-                        <div class="layui-input-block">
-                        <input type="text" id="contest_number" autocomplete="off" placeholder="请输入岗位编号" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        <label class="layui-form-label">岗位类别</label>
+                        <div class="layui-input-inline">
+                            <select name="modules" id="type">
+                                <option value="">请选择</option>
+                                <option value="1">校内岗</option>
+                                <option value="2">校外岗</option>
+                                <option value="3">家教岗位</option>
+                            </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">主办方</label>
-                        <div class="layui-input-block">
-                        <input type="text" id="contest_organizer" autocomplete="off" placeholder="请输入主办方" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                        <label class="layui-form-label">招聘方</label>
+                        <div class="layui-input-inline">
+                            <select name="employer" id="employer" lay-search="">
+                                <option value="">请选择或搜索</option>
+                                
+                            </select>
                         </div>
                     </div>
-                    <!--<div class="layui-form-item" style="margin-top:2%">-->
-                        <!--<label class="layui-form-label">岗位简介</label>-->
-                        <!--<div class="layui-input-block">-->
-                            <!--<textarea class="tcp_content layui-textarea" placeholder="请输入岗位简介，500字以内" style="width: 50%;" maxlength="500" -->
-                            <!--onchange="textarea_fun()" onkeydown="textarea_fun()" onkeyup="textarea_fun()"></textarea>-->
-                            <!--<span class="t_h" style="float: left; margin-left: 45%"><i>0</i>/500</span>-->
-                        <!--</div>-->
-                    <!--</div>-->
                     <div class="layui-form-item" style="margin-top:0.5%">
                         <label class="layui-form-label">开始时间</label>
                         <div class="layui-input-block">
-                            <input type="text" id="contest_starttime" autocomplete="off" placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input" style="width:200px"
+                            <input type="text" id="post_starttime" autocomplete="off" placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input" style="width:200px"
                             onkeypress="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">结束时间</label>
                         <div class="layui-input-block">
-                            <input type="text" id="contest_endtime" autocomplete="off" placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input" style="width:200px"
+                            <input type="text" id="post_endtime" autocomplete="off" placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input" style="width:200px"
                             onkeypress="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">岗位类型</label>
-                        <input name="contest_type" title="团队赛"  type="radio" checked="" value="team">
-                        <div class="layui-unselect layui-form-radio layui-form-radioed">
-                            <i class="layui-anim layui-icon"></i>
-                            <div>团队赛</div>
-                        </div>
-                        <input name="contest_type" title="个人赛" type="radio" value="individual">
-                        <div class="layui-unselect layui-form-radio">
-                            <i class="layui-anim layui-icon"></i>
-                            <div>个人赛</div>
+                        <label class="layui-form-label">面试时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="post_interview_date" autocomplete="off" placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input" style="width:200px"
+                            onkeypress="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
                         </div>
                     </div>
-                    <div class="layui-form-item" style="margin-top:2.5%">
-                        <div class="layui-input-inline" style="width:40%">
-                            <label class="layui-form-label">岗位端IP</label>
-                            <input type="text" id="contest_ip" autocomplete="off" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
-                        </div>
-                        <div class="layui-input-inline" style="width:40%">
-                            <label class="layui-form-label">端口</label>
-                            <input type="text" id="contest_port" autocomplete="off" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">需求人数</label>
+                        <div class="layui-input-block">
+                        <input type="text" id="post_number" autocomplete="off" placeholder="请输入需求人数" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
                         </div>
                     </div>
-                    <div class="layui-form-item" style="margin-top:2.5%">
-                        <div class="layui-input-inline" style="width:40%">
-                            <label class="layui-form-label">账号</label>
-                            <input type="text" id="contest_account" autocomplete="off" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
-                        </div>
-                        <div class="layui-input-inline" style="width:40%">
-                            <label class="layui-form-label">密码</label>
-                            <input type="password" id="contest_password" autocomplete="off" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">薪资待遇</label>
+                        <div class="layui-input-block">
+                        <input type="text" id="post_salary" autocomplete="off" placeholder="请输入薪资待遇" required class="layui-input" style="width: 50%;" onchange="inputLimit()" onkeydown="inputLimit()" onkeyup="inputLimit()">
                         </div>
                     </div>
-                    <!-- 下拉多选框，岗位管理员的选择 -->
-                    <div class="layui-form-item" id="admin_select">
-                        <label class="layui-form-label">岗位管理员（可多选）</label>
-                        <div class="layui-input-block" style="max-width: 50%; padding-top: 1%">
-                            <select id="selected_admins" name="admins" lay-filter="admin">
-                                <option value="">请选择岗位管理员</option>
-
-                            </select>
+                    <div class="layui-form-item layui-item-text" style="margin-top:2%;width: 60%">
+                        <label class="layui-form-label">岗位要求</label>
+                        <div class="layui-input-block">
+                            <textarea id="demand"></textarea>
                         </div>
                     </div>
-
-                    <div class="layui-input-block" style="margin-top:3.5%" id="buttons">
-                        <button type="button" class="layui-btn" onclick="add_contest()">立即提交</button>
+                    <div class="layui-form-item layui-item-text" style="margin-top:2%;width: 60%">
+                        <label class="layui-form-label">岗位简介</label>
+                        <div class="layui-input-block">
+                            <textarea id="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-input-block" style="" id="buttons">
+                        <button type="button" class="layui-btn" onclick="add_post()">立即提交</button>
                         <button type="reset" class="layui-btn layui-btn-primary" style="margin-left: 5%">重置</button>
                     </div>
                 </form>
@@ -210,35 +202,9 @@
         </div>
 
         <!-- 引入或者加载脚本 -->
-        <script src="../../../layui/layui.all.js" charset="utf-8"></script>
-        <script src="../../../layui/formSelects.js" charset="utf-8"></script>
-        <script src="js/add_contest.js" charset="utf-8"></script>
 
         <div id="LAY_democodejs">
             <script type="text/javascript">
-
-                //使用layui的模块拓展功能
-                layui.use('form', function(){
-                    var form = layui.form;
-                    fillSelects(form);
-                });
-                // formSelects.array('select0');//获得select0所选中的值，返回一个数组
-                //日期选择输入框的渲染
-                layui.use('laydate', function(){
-                    var laydate = layui.laydate;
-                    laydate.render({
-                        elem : "#contest_starttime"
-                        ,type: 'datetime'
-                    });
-                });
-                layui.use('laydate', function(){
-                    var laydate = layui.laydate;
-                    laydate.render({
-                        elem : "#contest_endtime"
-                        ,type: 'datetime'
-                    });
-                });
-
                 layui.use('element', function(){
                     var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
                     //监听导航点击

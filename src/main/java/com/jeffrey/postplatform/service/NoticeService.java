@@ -5,6 +5,7 @@ import com.jeffrey.postplatform.entity.NoticeEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -70,7 +71,9 @@ public class NoticeService {
     public Map<String, Object> findAllNotices(){
         Map<String, Object> resultMap = new HashMap<>();
         try {
-            List<NoticeEntity> list = noticeRepository.findAll();
+            Sort.Order order = Sort.Order.desc("noticeDate");
+            Sort sort = Sort.by(order);
+            List<NoticeEntity> list = noticeRepository.findAll(sort);
             resultMap.put("noticeList", list);
             LOGGER.info("查找所有通知成功，一共有" + list.size() + "个通知");
         } catch (Exception e){

@@ -13,6 +13,7 @@ public class RecordEntity {
     private Integer postId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "record_id", nullable = false)
     public int getRecordId() {
         return recordId;

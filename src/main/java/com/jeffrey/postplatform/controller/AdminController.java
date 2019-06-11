@@ -220,6 +220,12 @@ public class AdminController {
         return resultMap;
     }
 
+    /**
+     * 超级管理员重置普通管理员密码
+     * @param adminId
+     * @param newPwd
+     * @return
+     */
     @PostMapping("/resetAdminPwd")
     public Map<String, Object> resetAdminPwd(int adminId, String newPwd){
         Map<String, Object> resultMap = new HashMap<>();
@@ -235,6 +241,32 @@ public class AdminController {
         }
         return resultMap;
     }
+
+    /**
+     * 管理员修改个人密码
+     * @param oldPwd
+     * @param newPwd
+     * @return
+     */
+    @PostMapping("/updatePassword")
+    public Map<String, Object> updatePassword(HttpServletRequest request, String oldPwd, String newPwd){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            int adminId = ((AdminEntity) request.getSession().getAttribute("loginAdmin")).getAdminId();
+            Map<String, Object> map = adminService.updatePassword(adminId, oldPwd, newPwd);
+            if(map.containsKey("message")){
+                resultMap.put("message", map.get("message"));
+            }
+            else{
+                request.getSession().removeAttribute("loginAdmin");
+            }
+        } catch (Exception e){
+            resultMap.put("message", "管理员修改密码失败");
+            LOGGER.error(e.toString(), e);
+        }
+        return resultMap;
+    }
+
 
     /**
      * 普通管理员进行高权限操作，拒绝操作

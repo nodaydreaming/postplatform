@@ -11,6 +11,7 @@ public class TypeEntity {
     private String typeDescription;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "type_id", nullable = false)
     public int getTypeId() {
         return typeId;

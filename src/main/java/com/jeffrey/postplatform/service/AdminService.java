@@ -17,7 +17,6 @@ import java.util.Optional;
 public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
 
     /**
@@ -154,6 +153,44 @@ public class AdminService {
         }catch (Exception e){
             LOGGER.error(e.toString(), e);
             resultMap.put("message", "重置密码失败");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 管理员修改自己的密码
+     * @param adminId
+     * @param oldPwd
+     * @param newPwd
+     * @return
+     */
+    public Map<String, Object> updatePassword(int adminId, String oldPwd, String newPwd){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Optional<AdminEntity> adminOptional = adminRepository.findById(adminId);
+            if(adminOptional.isPresent()){
+                AdminEntity adminEntity = adminOptional.get();
+                //对旧密码加密
+                String encryptedPwd = PwdEnCoder.enCoder(oldPwd, adminEntity.getAdminTel().substring(0, 8));
+                if(encryptedPwd.equals(adminEntity.getAdminPassword())){
+                    //对新密码加密
+                    String encryptedNewPwd = PwdEnCoder.enCoder(newPwd, adminEntity.getAdminTel().substring(0, 8));
+                    adminEntity.setAdminPassword(encryptedNewPwd);
+                    adminRepository.save(adminEntity);
+                    LOGGER.info( "管理员（" + adminEntity.getAdminName() + "）修改密码");
+                }
+                else{
+                    resultMap.put("message", "原密码错误");
+                    LOGGER.info( "管理员（" + adminEntity.getAdminName() + "）修改密码失败，原密码错误");
+                }
+            }
+            else{
+                resultMap.put("message", "id为" + adminId + "的管理员不存在");
+                LOGGER.info( "id为" + adminId + "的管理员不存在, 重置密码失败");
+            }
+        } catch (Exception e){
+            resultMap.put("message", "管理员修改密码失败");
+            LOGGER.error(e.toString(), e);
         }
         return resultMap;
     }

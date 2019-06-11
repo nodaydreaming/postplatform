@@ -17,6 +17,7 @@ public class AdminEntity {
     private String adminPhoto;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id", nullable = false)
     public int getAdminId() {
         return adminId;

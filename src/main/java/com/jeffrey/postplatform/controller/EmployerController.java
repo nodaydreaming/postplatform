@@ -6,6 +6,7 @@ import com.jeffrey.postplatform.service.EmployerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,7 @@ public class EmployerController {
     }
 
     @GetMapping("/findAllEmployers")
-    public Map<String, Object> findAllEmployers(int page, int limit){
+    public Map<String, Object> findAllEmployers(@Nullable Integer page, @Nullable Integer limit){
         Map<String, Object> resultMap = new HashMap<>();
         try {
             Map<String, Object> map = employerService.findAllEmployers();
@@ -60,16 +61,25 @@ public class EmployerController {
                 for(EmployerEntity e : list){
                     e.setOrderId(i++);
                 }
-                int begin = (page - 1) * limit;
-                int end = begin + limit;
-                List<EmployerEntity> resultList = new ArrayList<>();
-                for(int j = begin; j < end && j < list.size(); j++){
-                    resultList.add(list.get(j));
+                if(page != null && limit != null){
+                    int begin = (page - 1) * limit;
+                    int end = begin + limit;
+                    List<EmployerEntity> resultList = new ArrayList<>();
+                    for(int j = begin; j < end && j < list.size(); j++){
+                        resultList.add(list.get(j));
+                    }
+                    resultMap.put("code", 0);
+                    resultMap.put("msg", "");
+                    resultMap.put("count", list.size());
+                    resultMap.put("data", resultList);
                 }
-                resultMap.put("code", 0);
-                resultMap.put("msg", "");
-                resultMap.put("count", list.size());
-                resultMap.put("data", resultList);
+                else{
+                    resultMap.put("code", 0);
+                    resultMap.put("msg", "");
+                    resultMap.put("count", list.size());
+                    resultMap.put("employerList", list);
+                }
+
                 LOGGER.info("查询所有招聘方成功");
             }
         } catch (Exception e){

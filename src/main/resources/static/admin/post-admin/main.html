@@ -10,6 +10,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="format-detection" content="telephone=no">
         
+        <link rel="stylesheet" href="../../layui/css/admin.css" media="all">
         <link rel="stylesheet" href="../../layui/css/layui.css" media="all">
         <link rel="stylesheet" href="../../layui/css/global.css" media="all">
         <link rel="stylesheet" href="../../layui/css/modules/layer/default/layer.css" media="all">
@@ -26,21 +27,21 @@
     <body>
         <div class="layui-layout layui-layout-admin">
             <!-- 顶部导航栏 -->
-            <div class="layui-header header header-demo">
+            <div class="layui-header header header-demo" style="height: 61px">
                 <div class="layui-main">
                     <a class="" href="#" style="height: 100%; font-size: 20px;color: rgba(255, 255, 255, 0.8); line-height: 57px; font-weight: 500">
                         兼职招聘平台管理系统
                     </a>
                     <div class="layui-form component" lay-filter="LAY-site-header-component"></div>
-                    <ul class="layui-nav">
+                    <ul class="layui-nav" style="margin-top: 5px">
                         <li class="layui-nav-item ">
                         <a href="../../post/home.html">返回前台</a>
                         </li>
                         <li class="layui-nav-item">
                             <a href="javascript:;">
-                                <img src="images/user_default.jpg" class="layui-nav-img">
+                                <img src="images/user_default.jpg" class="layui-nav-img" style="width: 30px; height:30px;">
                                 我
-                                <span class="layui-nav-more"></span>
+                                <span class="layui-nav-more" style="border-top-color: rgba(255, 255, 255, 0.7)"></span>
                             </a>
                             <dl class="layui-nav-child layui-anim layui-anim-upbit" id="list_cur" style="top: 60px;">
                                 <dd style="border: 0px; height: 5px;"></dd>
@@ -59,6 +60,9 @@
                         <li class="layui-nav-item layui-nav-itemed bg-color-menu">
                             <a href="javascript:;"><i class="layui-icon layui-icon-home" style="font-size:16px;"></i>&nbsp;&nbsp;平台管理</a>
                             <dl class="layui-nav-child">
+                                <dd class="layui-this">
+                                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主页</a>
+                                </dd>
                                 <dd class="">
                                     <a href="platform/data_statistics.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据统计</a>
                                 </dd>
@@ -67,7 +71,7 @@
                                 </dd>
                             </dl>
                         </li>
-                        <li class="layui-nav-item layui-nav-itemed bg-color-menu">
+                        <li class="layui-nav-item bg-color-menu">
                             <a href="javascript:;"><i class="layui-icon layui-icon-flag" style="font-size:16px;"></i>&nbsp;&nbsp;岗位管理</a>
                             <dl class="layui-nav-child">
                                 <dd class="">
@@ -81,7 +85,7 @@
                                 </dd>
                             </dl>
                         </li>
-                        <li class="layui-nav-item layui-nav-itemed bg-color-menu">
+                        <li class="layui-nav-item bg-color-menu">
                             <a href="javascript:;"><i class="layui-icon layui-icon-user" style="font-size:16px;"></i>&nbsp;&nbsp;用户管理</a>
                             <dl class="layui-nav-child">
                                 <dd class="">
@@ -96,7 +100,7 @@
                                 </dd>
                             </dl>
                         </li>
-                        <li class="layui-nav-item layui-nav-itemed bg-color-menu">
+                        <li class="layui-nav-item bg-color-menu">
                             <a href="javascript:;"><i class="layui-icon layui-icon-set" style="font-size:16px;"></i>&nbsp;&nbsp;管理员管理</a>
                             <dl class="layui-nav-child">
                                 <dd class="">
@@ -111,15 +115,105 @@
                 </div>
             </div>
             <!-- 主体内容 -->
-            <div class="layui-body" id="LAY_app_body">
-
-            </div>
+            <div class="layui-body" id="LAY_app_body" style="margin: 2%">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">快捷方式</div>
+                        <div class="layui-card-body">
+                            <div class="layui-carousel layadmin-carousel layadmin-shortcut" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 280px;">
+                                <div carousel-item="">
+                                    <ul class="layui-row layui-col-space10 layui-this">
+                                        <li class="layui-col-xs3">
+                                        <a href="post/post_list.html">
+                                            <i class="layui-icon layui-icon-template-1"></i>
+                                            <cite>岗位列表</cite>
+                                        </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                        <a href="user/employer_list.html">
+                                            <i class="layui-icon layui-icon-read"></i>
+                                            <cite>招聘方列表</cite>
+                                        </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                        <a href="user/user_list.html">
+                                            <i class="layui-icon layui-icon-user"></i>
+                                            <cite>用户列表</cite>
+                                        </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                        <a href="platform/announcement.html">
+                                            <i class="layui-icon layui-icon-notice"></i>
+                                            <cite>公告列表</cite>
+                                        </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a href="#">
+                                                <i class="layui-icon layui-icon-add-1"></i>
+                                                <cite>待定</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a href="#">
+                                                <i class="layui-icon layui-icon-add-1"></i>
+                                                <cite>待定</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a href="#">
+                                                <i class="layui-icon layui-icon-add-1"></i>
+                                                <cite>待定</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a href="#">
+                                                <i class="layui-icon layui-icon-add-1"></i>
+                                                <cite>待定</cite>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">最新动态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-carousel layadmin-carousel layadmin-backlog" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 280px;">
+                                <div carousel-item="">
+                                <ul class="layui-row layui-col-space10 layui-this">
+                                    <li class="layui-col-xs6">
+                                        <a href="user/user_list.html" class="layadmin-backlog-body">
+                                        <h3>新用户</h3>
+                                        <p><cite id="user_num">2</cite></p>
+                                        </a>
+                                    </li>
+                                    <li class="layui-col-xs6">
+                                        <a href="platform/announcement.html" class="layadmin-backlog-body">
+                                        <h3>新公告</h3>
+                                        <p><cite id="notice_num">1</cite></p>
+                                        </a>
+                                    </li>
+                                    <li class="layui-col-xs6">
+                                        <a href="post/post_list.html" class="layadmin-backlog-body">
+                                        <h3>新岗位</h3>
+                                        <p><cite id="post_num">1</cite></p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
-
-
 
         <!-- 引入或者加载脚本 -->
         <script src="../../layui/layui.all.js" charset="utf-8"></script>
+        
         <div id="LAY_democodejs">
             <script>
                 layui.use('element', function(){

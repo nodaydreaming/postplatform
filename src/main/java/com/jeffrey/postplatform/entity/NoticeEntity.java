@@ -14,6 +14,7 @@ public class NoticeEntity {
     private Date noticeDate;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notice_id", nullable = false)
     public int getNoticeId() {
         return noticeId;
@@ -44,7 +45,7 @@ public class NoticeEntity {
     }
 
     @Basic
-    @Column(name = "notice_author", nullable = true)
+    @Column(name = "notice_author", nullable = true, length = 255)
     public String getNoticeAuthor() {
         return noticeAuthor;
     }
@@ -86,7 +87,7 @@ public class NoticeEntity {
                 "noticeId=" + noticeId +
                 ", noticeTitle='" + noticeTitle + '\'' +
                 ", noticeContent='" + noticeContent + '\'' +
-                ", noticeAuthor=" + noticeAuthor +
+                ", noticeAuthor='" + noticeAuthor + '\'' +
                 ", noticeDate=" + noticeDate +
                 '}';
     }
