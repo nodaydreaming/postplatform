@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories
 public class PostplatformApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(PostplatformApplication.class, args);
     }
-
 }

@@ -10,5 +10,4 @@ public class DefaultController {
     public String index()  {
         return "redirect:/post/home.html";
     }
-
 }

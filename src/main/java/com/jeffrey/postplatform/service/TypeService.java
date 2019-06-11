@@ -96,5 +96,4 @@ public class TypeService {
         }
         return resultMap;
     }
-
 }

@@ -142,5 +142,4 @@ public class PostController {
         }
         return resultMap;
     }
-
 }
