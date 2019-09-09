@@ -102,22 +102,27 @@ public class AdminService {
     public Map<String, Object> adminLogin(String username, String password){
         Map<String, Object> resultMap = new HashMap<>();
         try {
-            AdminEntity adminEntity = adminRepository.findByAdminUsername(username);
-            String encryptedPwd = PwdEnCoder.enCoder(password, adminEntity.getAdminTel().substring(0, 8));
-            if(encryptedPwd.equals(adminEntity.getAdminPassword())){
-                AdminEntity a = new AdminEntity();
-                a.setAdminId(adminEntity.getAdminId());
-                a.setAdminUsername(adminEntity.getAdminUsername());
-                a.setAdminName(adminEntity.getAdminName());
-                a.setAdminLevel(adminEntity.getAdminLevel());
-                a.setAdminPhoto(adminEntity.getAdminPhoto());
+            AdminEntity adminEntity = adminRepository.findByAdminUsernameOrAdminTel(username, username);
+            if(adminEntity != null){
+                String encryptedPwd = PwdEnCoder.enCoder(password, adminEntity.getAdminTel().substring(0, 8));
+                if(encryptedPwd.equals(adminEntity.getAdminPassword())){
+                    AdminEntity a = new AdminEntity();
+                    a.setAdminId(adminEntity.getAdminId());
+                    a.setAdminUsername(adminEntity.getAdminUsername());
+                    a.setAdminName(adminEntity.getAdminName());
+                    a.setAdminLevel(adminEntity.getAdminLevel());
+                    a.setAdminPhoto(adminEntity.getAdminPhoto());
 
-                resultMap.put("loginAdmin", a);
-                LOGGER.info("管理员" + a.getAdminName() + "(" + username + ")登陆成功");
+                    resultMap.put("loginAdmin", a);
+                    LOGGER.info("管理员" + a.getAdminName() + "(" + username + ")登陆成功");
+                }
+                else{
+                    LOGGER.info("username:" + username + ",password:" + password + ";用户名或密码错误");
+                    resultMap.put("message", "用户名或密码错误");
+                }
             }
             else{
-                LOGGER.info("username:" + username + ",password:" + password + ";用户名或密码错误");
-                resultMap.put("message", "用户名或密码错误");
+                resultMap.put("message", "账号不存在");
             }
         }catch (Exception e){
             e.printStackTrace();
