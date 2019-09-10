@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RecordRepository extends JpaRepository<RecordEntity, Integer> {
+
+    RecordEntity findRecordEntityByPostIdAndAndUserId(int postId, int userId);
 }

@@ -55,4 +55,21 @@ public class RecordService {
         }
         return resultMap;
     }
+    public Map<String, Object> findRecordByUserIdAndPostId(int userId, int postId){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            RecordEntity recordEntity = recordRepository.findRecordEntityByPostIdAndAndUserId(userId, postId);
+            if(recordEntity != null){
+                resultMap.put("recordEntity", recordEntity);
+            }
+            else{
+                resultMap.put("message", "未查到记录");
+            }
+
+        } catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "查找岗位报名记录失败");
+        }
+        return resultMap;
+    }
 }

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>注册页</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+ 
+<div class="login-main">
+    <header class="layui-elip" style="width: 82%">注册</header>
+    <!-- 表单选项 -->
+    <form class="layui-form">
+        <!-- 学号 -->
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" id="stu_number" name="stu_number" required  lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="nuri" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="nuwr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+        <!-- 手机号 -->
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" id="telephone" name="telephone" required  lay-verify="phone" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="telri" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="telwr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+        <!-- 密码 -->
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 85%">
+                <input type="password" id="pwd" name="password" required  lay-verify="required" placeholder="密码，6-12位，只能包含字母、数字和下划线" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="pri" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="pwr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+        <!-- 确认密码 -->
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 85%">
+                <input type="password" id="rpwd" name="repassword" required  lay-verify="required" placeholder="请确认密码" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="rpri" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="rpwr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+        <!-- 学院 -->
+        <div class="layui-input-inline">
+            <div class="layui-input-inline" style="width: 85%">
+                <select name="college" id="college" required>
+                    <option value="">请选择学院</option>
+                    <option value="">阿里巴巴商学院</option>
+                    <option value="">材料与化学化工学院</option>
+                    <option value="">杭州国际服务工程学院</option>
+                    <option value="">理学院</option>
+                    <option value="">文化创意学院</option>
+                    <option value="">外国语学院</option>
+                    <option value="">政治与社会学院</option>
+                    <option value="">经亨颐学院</option>
+                    <option value="">经济与管理学院</option>
+                    <option value="">沈钧儒法学院</option>
+                    <option value="">教育学院</option>
+                    <option value="">医学院</option>
+                    <option value="">生命与环境科学学院</option>
+                    <option value="">体育与健康学院</option>
+                    <option value="">美术学院</option>
+                    <option value="">人文学院</option>
+                </select>
+            </div>
+        </div>
+        <!-- 班级 -->
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" id="stu_class" name="stu_class" required  lay-verify="required" placeholder="请输入班级(如：计算机163班)" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <!-- 姓名 -->
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" id="name" name="name" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <!-- 性别 -->
+        <div class="layui-input-inline">
+            <div class="layui-input-block" style="margin-left: 80px">
+                <input name="sex" title="男" type="radio" checked="" value="男">
+                <div class="layui-unselect layui-form-radio layui-form-radioed">
+                    <i class="layui-anim layui-icon"></i>
+                    <div>男</div>
+                </div>
+                <input name="sex" title="女" type="radio" value="女">
+                <div class="layui-unselect layui-form-radio">
+                    <i class="layui-anim layui-icon"></i>
+                    <div>女</div>
+                </div>
+            </div>
+        </div>
+        <!-- 邮箱 -->
+        <div class="layui-input-inline  ">
+            <div class="layui-inline" style="width: 85%">
+                <input type="text" id="email" name="email" required  lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+            </div>
+            <!-- 对号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="emailri" style="color: green;font-weight: bolder;" hidden></i>
+            </div>
+            <!-- 错号 -->
+            <div class="layui-inline">
+                <i class="layui-icon" id="emailwr" style="color: red; font-weight: bolder;" hidden>ဆ</i>
+            </div>
+        </div>
+
+        <div class="layui-input-inline login-btn" style="width: 85%">
+            <button type="submit" lay-submit lay-filter="sub" class="layui-btn">注册</button>
+        </div>
+        <hr style="width: 85%" />
+        <p style="width: 85%"><a href="login.html" class="fl">已有账号？立即登录</a><a href="javascript:;" class="fr">忘记密码？</a></p>
+    </form>
+</div>
+ 
+ 
+<script src="../layui/layui.js"></script>
+<script src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+    layui.use(['form','jquery','layer'], function () {
+        var form   = layui.form;
+        var $      = layui.jquery;
+        var layer  = layui.layer;
+        //添加表单失焦事件
+        //验证表单
+        // 为学号添加正则验证
+        $('#stu_number').blur(function() {
+            var stu_number = $(this).val();
+            var reg1 = /^\d{13}$/;
+            if(!reg1.test(stu_number)){
+                $('#nuwr').removeAttr('hidden');
+                $('#nuri').attr('hidden','hidden');
+                layer.msg('请注意学号格式! ')
+            }
+            else{
+                //验证学号是否已经注册
+                $.ajax({
+                    url:'../user/findUserByStuNumber',
+                    type:'post',
+                    data:{'userStuNumber':stu_number},
+                    scriptCharset:'utf-8',
+                    success:function(result){
+                        if (!result.userEntity) {
+                            //尚未注册
+                            $('#nuri').removeAttr('hidden');
+                            $('#nuwr').attr('hidden','hidden');
+                        } else {
+                            //已注册
+                            $('#nuwr').removeAttr('hidden');
+                            $('#nuri').attr('hidden','hidden');
+                            layer.msg('当前学号已被占用! ')
+                        }
+    
+                    }
+                });
+            }
+        });
+        //为手机号添加正则验证
+        $('#telephone').blur(function(){
+            var telephone = $(this).val();
+            var reg1 = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+            //判断手机号是否合法
+            if(!reg1.test(telephone)){
+                $('#telwr').removeAttr('hidden');
+                $('#telri').attr('hidden','hidden');
+                layer.msg('请注意手机号格式! ')
+            }
+            else{
+                //验证手机号是否已经注册
+                $.ajax({
+                    url:'../user/findUserByUserTel',
+                    type:'post',
+                    data:{'userTel':telephone},
+                    scriptCharset:'utf-8',
+                    success:function(result){
+                        if (!result.userEntity) {
+                            //尚未注册
+                            $('#telri').removeAttr('hidden');
+                            $('#telwr').attr('hidden','hidden');
+                        } else {
+                            //已注册
+                            $('#telwr').removeAttr('hidden');
+                            $('#telri').attr('hidden','hidden');
+                            layer.msg('当前手机号已被占用! ')
+                        }
+    
+                    }
+                });
+            }
+        });
+        // 为密码添加正则验证
+        $('#pwd').blur(function() {
+                var reg = /^[\w]{6,12}$/;
+                if(!($('#pwd').val().match(reg))){
+                    //layer.msg('请输入合法密码');
+                    $('#pwr').removeAttr('hidden');
+                    $('#pri').attr('hidden','hidden');
+                    layer.msg('请输入合法密码');
+                }else {
+                    $('#pri').removeAttr('hidden');
+                    $('#pwr').attr('hidden','hidden');
+                }
+        });
+        //验证两次密码是否一致
+        $('#rpwd').blur(function() {
+                if($('#pwd').val() != $('#rpwd').val()){
+                    $('#rpwr').removeAttr('hidden');
+                    $('#rpri').attr('hidden','hidden');
+                    layer.msg('两次输入密码不一致!');
+                }else {
+                    $('#rpri').removeAttr('hidden');
+                    $('#rpwr').attr('hidden','hidden');
+                };
+        });
+        // 为邮箱添加正则验证
+        $('#email').blur(function() {
+            var reg=/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+            if(!reg.test($('#email').val())){
+                $('#emailwr').removeAttr('hidden');
+                $('#emailri').attr('hidden','hidden');
+                layer.msg('请注意邮箱格式!');
+            }else {
+                $('#emailri').removeAttr('hidden');
+                $('#emailwr').attr('hidden','hidden');
+            };
+        });
+        //添加表单监听事件,提交注册信息
+        form.on('submit(sub)', function() {
+            var college = $("dd[class='layui-this']").text();
+            if(college != null && college !== "" && college !== "请选择学院"){
+                var mydata={"userPassword":$('#pwd').val(), "userName":$('#name').val(), "userGender":$('.layui-form-radioed')[0].childNodes[1].innerText,
+                        "userTel":$('#telephone').val(), "userStuNumber":$('#stu_number').val(), "userCollege":college,"userClass":$("#stu_class").val(),
+                        "userEmail":$('#email').val()};
+
+                $.ajax({
+                    url:'../user/saveUser',
+                    type:'post',
+                    data:mydata,
+                    scriptCharset:'utf-8',
+                    success:function(result){
+                        if(result.newUser != null){
+                            layer.msg("注册成功！\n即将跳转到登陆页。");
+                            window.setTimeout(goLogin,1500);
+                        }
+                        else if(result.message != null){
+                            layer.msg(result.message);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            }
+            
+            //防止页面跳转
+            return false;
+        });
+
+        function goLogin(){
+            window.location.href = "login.html";
+        }
+ 
+    });
+</script>
+</body>
+</html>

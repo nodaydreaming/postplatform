@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>岗位详情</title>
+        <link rel="stylesheet" href="../layui/css/layui.css">        
+    </head>
+    <body>
+        <div style="height: 80px; background-color: rgba(165, 165, 165, 0.5); margin-bottom: 2%">
+            <h1 style="padding: 1% 0 0 3%">杭州师范大学学生兼职岗位招聘平台</h1>
+            <div style="float: right; margin: 0 5% 0 0; font-size: 1.2em" id="btns">
+                <a href="login.html">登陆</a>&nbsp;|&nbsp;<a href="register.html">注册</a>
+            </div>
+            <div style="float: right; margin: 0 5% 0 0;" id="nameDiv" hidden="hidden">
+                <p><span id="username" style="font-size: 1.5em">用户名</span>&nbsp;&nbsp;&nbsp;<a onclick="signOut()" style="cursor: pointer;">退出</a></p>
+            </div>
+        </div>
+        <div style="width: 60%; margin:0 auto">
+            <div class="layui-card-body">
+                <table class="layui-table" lay-skin="line">
+                    <colgroup>
+                        <col width="20%">
+                        <col width="80%">
+                    <col>
+                    </colgroup>
+                    <thead>
+                        
+                    </thead>
+                    <tbody id="post">
+
+                    </tbody>
+                </table>
+                <button class="layui-btn layui-btn-radius" onclick=""
+              style="height: 60px; width: 150px; font-size: 25px">报名</button>
+            </div>
+        </div>
+
+    </body>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <script src="js/post.js"></script>
+    <script>
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function(){
+            var element = layui.element;
+        });
+    </script>
+</html>

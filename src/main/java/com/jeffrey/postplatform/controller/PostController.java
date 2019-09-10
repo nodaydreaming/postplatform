@@ -62,6 +62,25 @@ public class PostController {
         return resultMap;
     }
 
+
+    @PostMapping("/findPostById")
+    public Map<String, Object> findPostById(int postId){
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            Map<String, Object> map = postService.findPostById(postId);
+            if(map.containsKey("message")){
+                resultMap.put("message", map.get("message"));
+            }
+            else if(map.containsKey("postEntity") && map.get("postEntity") != null){
+                resultMap.put("postEntity", map.get("postEntity"));
+            }
+        } catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "查询岗位失败");
+        }
+        return resultMap;
+    }
+
     @GetMapping("/findAllByPostType")
     public Map<String, Object> findAllByPostType(@Nullable Integer page,@Nullable Integer limit, int postType){
         Map<String, Object> resultMap = new HashMap<>();

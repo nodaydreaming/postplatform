@@ -102,4 +102,22 @@ public class PostService {
         }
         return resultMap;
     }
+
+    public Map<String, Object> findPostById(int postId){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Optional<PostEntity> postOptional = postRepository.findById(postId);
+            if(postOptional.isPresent()){
+                resultMap.put("postEntity", postOptional.get());
+                LOGGER.info("查询Id为" + postOptional.get().getPostId() + "的用户成功");
+            }
+            else{
+                resultMap.put("userEntity", null);
+            }
+        }catch (Exception e){
+            LOGGER.error(e.toString(), e);
+            resultMap.put("message", "查找失败");
+        }
+        return resultMap;
+    }
 }
