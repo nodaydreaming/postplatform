@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>兼职招聘平台管理系统--数据统计</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        
+        <link rel="stylesheet" href="../../../layui/css/layui.css" media="all">
+        <link rel="stylesheet" href="../../../layui/css/global.css" media="all">
+        <link rel="stylesheet" href="../../../layui/css/modules/layer/default/layer.css" media="all">
+        
+        <script type="text/javascript" src="../js/jquery-3.3.1.js"></script>
+        <script type="text/javascript" src="../js/general.js"></script>
+        <script type="text/javascript" src="js/data_statistics.js"></script>
+        <style>
+            .bg-color-menu {
+                background-color: #20222A !important;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="layui-layout layui-layout-admin">
+            <!-- 顶部导航栏 -->
+            <div class="layui-header header header-demo">
+                <div class="layui-main">
+                    <a class="" href="../main.html" style="height: 100%; font-size: 20px;color: rgba(255, 255, 255, 0.8); line-height: 57px; font-weight: 500">
+                        兼职招聘平台管理系统
+                    </a>
+                    <div class="layui-form component" lay-filter="LAY-site-header-component"></div>
+                    <ul class="layui-nav">
+                        <li class="layui-nav-item ">
+                            <a href="../../../post/home.html">返回前台</a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">
+                                <img src="../images/user_default.jpg" class="layui-nav-img">
+                                我
+                                <span class="layui-nav-more"></span>
+                            </a>
+                            <dl class="layui-nav-child layui-anim layui-anim-upbit" id="list_cur" style="top: 60px;">
+                                <dd style="border: 0px; height: 5px;"></dd>
+                                <dd><a onclick="updatePwd()" style="cursor:pointer;">修改密码</a></dd>
+                                <dd><a onclick="openUpdate()" style="cursor:pointer;">修改信息</a></dd>
+                                <dd><a onclick="signOut()" style="cursor:pointer;">退出</a></dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 左侧垂直导航栏 -->
+            <div class="layui-side layui-bg-black">
+                <div class="layui-side-scroll bg-color-menu">
+                    <ul class="layui-nav layui-nav-tree">
+                        <li class="layui-nav-item bg-color-menu layui-nav-itemed">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-home" style="font-size:16px;"></i>&nbsp;&nbsp;平台管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../main.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主页</a>
+                                </dd>
+                                <dd class="layui-this">
+                                    <a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据统计</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="announcement.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公告管理</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-flag" style="font-size:16px;"></i>&nbsp;&nbsp;岗位管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../post/add_post.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位发布</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../post/post_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位列表</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../post/post_type.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位分类</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-user" style="font-size:16px;"></i>&nbsp;&nbsp;用户管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../user/add_employer.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;添加招聘方</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../user/employer_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;招聘方列表</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../user/user_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户列表</a>
+                                </dd>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item bg-color-menu">
+                            <a href="javascript:;"><i class="layui-icon layui-icon-set" style="font-size:16px;"></i>&nbsp;&nbsp;管理员管理</a>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                    <a href="../admin/add_admin.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;添加管理员</a>
+                                </dd>
+                                <dd class="">
+                                    <a href="../admin/admin_list.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;管理员列表</a>
+                                </dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 引入或者加载脚本 -->
+        <script src="../../../layui/layui.all.js" charset="utf-8"></script>
+        </div>
+        <div id="LAY_democodejs">
+            <script>
+                layui.use('element', function(){
+                    var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+                    //监听导航点击
+                    element.on('nav(demo)', function(elem){
+                        //console.log(elem)
+                        layer.msg(elem.text());
+                    });
+                });
+            </script>
+        </div>
+    </body>
+</html>

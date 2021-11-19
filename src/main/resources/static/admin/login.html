@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>后台登陆</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../layui/css/global.css" media="all">
+    <link rel="stylesheet" href="../layui/css/modules/layer/default/layer.css" media="all">
+    
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="login.js"></script>
+    <script src="../layui/layui.all.js" charset="utf-8"></script>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 50px;">
+        <p style="font-weight: 500; font-size: 46px; font-family: STXingkai;">学生兼职岗位招聘平台管理系统</p>
+    </div>
+    <fieldset class="layui-elem-field site-demo-button" style="margin: 5% auto 0; width: 450px; height: 300px;">
+    <legend>登陆</legend>
+
+        <from class="layui-form" action="" style="text-align: center;">
+            <div class="layui-form-item" style="margin-top: 10%">
+                <label class="layui-form-label">账号：</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" id="username" placeholder="用户名" style="width: 70%;">
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-top: 5%">
+                <label class="layui-form-label">密码：</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="password" id="password" placeholder="密码" style="width: 70%;">
+                </div>
+            </div>
+            <div style="margin-top: 3%; text-align: center;margin-top: 10%">
+                <input type="submit" value="登陆" id="btnLogin" onclick="btn_login()" class="layui-btn layui-btn-fluid" style="width: 60%;">
+            </div>
+        </from>
+    </fieldset>
+</body>
+</html>
